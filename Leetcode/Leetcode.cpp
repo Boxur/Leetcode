@@ -13,6 +13,7 @@ public:
         for (int i=0;i<foods.size();i++)
         {
             rate[foods[i]] = ratings[i];
+            cuisinesType[foods[i]] = cuisines[i];
             if (rate[highestRate[cuisines[i]]] < ratings[i])
             {
                 highestRate[cuisines[i]] = foods[i];
@@ -22,7 +23,22 @@ public:
     }
 
     void changeRating(std::string food, int newRating) {
-
+        if (highestRate[cuisinesType[food]] != food)
+        {
+            rate[food] = newRating;
+            if (rate[highestRate[cuisinesType[food]]] < newRating)
+            {
+                highestRate[cuisinesType[food]] = food;
+            }
+            else if (rate[highestRate[cuisinesType[food]]] == newRating)
+            {
+                highestRate[cuisinesType[food]] = (food< highestRate[cuisinesType[food]]) ? food : highestRate[cuisinesType[food]];
+            }
+        }
+        else
+        {
+            rate[food] = newRating;
+        }
     }
 
     std::string highestRated(std::string cuisine) {
@@ -30,6 +46,7 @@ public:
     }
 private:
     std::unordered_map<std::string,int> rate; //food - > rating
+    std::unordered_map<std::string, std::string> cuisinesType; //food - > cuisines
     std::unordered_map<std::string, std::string> highestRate; //cuisines - > food
 };
 
@@ -391,10 +408,15 @@ public:
 
 int main()
 {
-    std::vector<std::string> foods = { "kimchi", "miso", "sushi", "moussaka", "ramen", "bulgogi" };
-    std::vector<std::string> cuisines = { "korean", "japanese", "japanese", "greek", "japanese", "korean" };
-    std::vector<int> ratingList = { 9, 12, 8, 15, 14, 7 };
+    std::vector<std::string> foods = { "czopaaeyl","lxoozsbh","kbaxapl" };
+    std::vector<std::string> cuisines = { "dmnuqeatj","dmnuqeatj","dmnuqeatj" };
+    std::vector<int> ratingList = { 11,2,15 };
     FoodRatings ratings(foods,cuisines,ratingList);
+    ratings.changeRating("czopaaeyl", 12);
+    std::cout<<ratings.highestRated("dmnuqeatj")<<std::endl;
+    ratings.changeRating("kbaxapl", 8);
+    ratings.changeRating("lxoozsbh", 5);
+    std::cout<<ratings.highestRated("dmnuqeatj")<<std::endl;
     std::cout << ratings.highestRated("japanese");
     return 0;
 }
