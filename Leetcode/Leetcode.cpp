@@ -18,8 +18,13 @@ public:
             {
                 highestRate[cuisines[i]] = foods[i];
             }
+            else if (rate[highestRate[cuisines[i]]] == ratings[i]&& highestRate[cuisines[i]]>foods[i])
+            {
+                highestRate[cuisines[i]] = foods[i];
+            }
 
         }
+        rate.erase("");
     }
 
     void changeRating(std::string food, int newRating) {
@@ -37,7 +42,23 @@ public:
         }
         else
         {
-            rate[food] = newRating;
+            if(rate[food] <= newRating)
+                rate[food] = newRating;
+            else
+            {
+                rate[food] = newRating;
+                for (const auto& name : rate)
+                {
+                    if (cuisinesType[name.first] == cuisinesType[food] && rate[name.first] > rate[highestRate[cuisinesType[food]]])
+                    {
+                        highestRate[cuisinesType[food]] = name.first;
+                    }
+                    else if (cuisinesType[name.first] == cuisinesType[food] && rate[name.first] == rate[highestRate[cuisinesType[food]]]&&name.first< highestRate[cuisinesType[food]])
+                    {
+                        highestRate[cuisinesType[food]] = name.first;
+                    }
+                }
+            }
         }
     }
 
@@ -408,16 +429,12 @@ public:
 
 int main()
 {
-    std::vector<std::string> foods = { "czopaaeyl","lxoozsbh","kbaxapl" };
-    std::vector<std::string> cuisines = { "dmnuqeatj","dmnuqeatj","dmnuqeatj" };
-    std::vector<int> ratingList = { 11,2,15 };
+    std::vector<std::string> foods = { "vhbibydfop","ggtdlawxup","lslcltacc","bqgkfcy","xxowyabq","ezswv","ewgvsuyvpo","zgochpey","epiaxxiv","idpdiqlcp","wqgrbvme","wqxbxeovwe","iduzk","ahemklz","ah","rvuqnlydxu","dldqmpheob","lzeqwfb","ykwjc","dtrgnrcqr","cwcgevzzz","zejbynj","ivhdsnjpho","gsyewq","ekqhtiijrj","cthwbt","gnbhjyhcil","kkthw","ktiqokzl","zzroi","cjwapjnzql","hfum","jrwby","amhfyno","bj","fszije","nbkpptir","dgzmoxhhoe","bnisfskgxi","uepypxnsy","afdz","tdctkeg","lfsohpzmk","ewwqult","iynyddno","yyroyjzdg","mcpea","lzafjh","jdvcxidtm","qvkyqmupz","kjop","girgfkaib","qecvnaxpsm","itx","xhjmq","lwwbdxkz","chthxuhex","tghokrfica","vrmjibxv","oipnttbz","yyfvlwvj","erbtnw","yezfiom","ismarfqbuv","vmfxlqbxwa","pcwparohxf","bpdrndbv","owgjjitjfd","fdwmxhli","kffetdxvfx","ruahmg","aphbsbkimb","nbkdfkgl","rxehcqcrwu","kxwlfxbe","qukxd","tewgnjuxnm","jxfqwqe","mdgwiok","tbkmnx","klzznopcn","vjbcvddw","yzhawtmpwp","fhjichpi","tapig","glfbwolsoa","xklqlzm" };
+    std::vector<std::string> cuisines = { "kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh","kggxajkarh" };
+    std::vector<int> ratingList = { 146,562,428,619,731,483,598,619,950,446,630,556,894,911,537,359,863,995,417,702,689,667,502,691,896,582,111,319,182,953,131,372,563,963,300,42,829,187,676,509,259,688,897,614,392,170,392,1,134,79,995,371,886,430,72,830,871,758,247,333,128,987,659,933,640,198,638,585,825,904,729,214,974,935,581,985,85,987,51,174,301,635,148,492,200,275,101 };
     FoodRatings ratings(foods,cuisines,ratingList);
-    ratings.changeRating("czopaaeyl", 12);
-    std::cout<<ratings.highestRated("dmnuqeatj")<<std::endl;
-    ratings.changeRating("kbaxapl", 8);
-    ratings.changeRating("lxoozsbh", 5);
-    std::cout<<ratings.highestRated("dmnuqeatj")<<std::endl;
-    std::cout << ratings.highestRated("japanese");
+
+    std::cout<<ratings.highestRated("kggxajkarh")<<std::endl;
     return 0;
 }
 
