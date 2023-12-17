@@ -15,7 +15,7 @@ public:
             rate[foods[i]] = ratings[i];
             if (rate[highestRate[cuisines[i]]] < ratings[i])
             {
-
+                highestRate[cuisines[i]] = foods[i];
             }
 
         }
@@ -26,7 +26,7 @@ public:
     }
 
     std::string highestRated(std::string cuisine) {
-
+        return highestRate[cuisine];
     }
 private:
     std::unordered_map<std::string,int> rate; //food - > rating
@@ -391,7 +391,11 @@ public:
 
 int main()
 {
-    FoodRatings ratings();
+    std::vector<std::string> foods = { "kimchi", "miso", "sushi", "moussaka", "ramen", "bulgogi" };
+    std::vector<std::string> cuisines = { "korean", "japanese", "japanese", "greek", "japanese", "korean" };
+    std::vector<int> ratingList = { 9, 12, 8, 15, 14, 7 };
+    FoodRatings ratings(foods,cuisines,ratingList);
+    std::cout << ratings.highestRated("japanese");
     return 0;
 }
 
