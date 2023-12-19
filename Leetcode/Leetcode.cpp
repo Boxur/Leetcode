@@ -508,14 +508,46 @@ public:
         }
         return max1 * max2 - min1 * min2;
     }
+
+    //TODO fix this shit up
+    std::vector<std::string> generateParenthesis(int n) {
+        std::vector<std::string> output;
+        return output;
+    }
+
+    std::vector<std::vector<int>> imageSmoother(std::vector<std::vector<int>>& img) {
+        std::vector<std::vector<int>> ans = img;
+        for (int y = 1; y < img.size()-1; y++)
+        {
+            for (int x = 1; x < img[0].size()-1; x++)
+            {
+                ans[x][y] = (img[x - 1][y - 1] + img[x][y - 1] + img[x + 1][y - 1] + img[x - 1][y] + img[x][y] + img[x + 1][y] + img[x - 1][y + 1] + img[x][y + 1] + img[x + 1][y + 1]) / 9;
+            }
+        }
+        return ans;
+    }
 };
 
 int main()
 {
-    std::vector<int> in = { 5,6,2,7,4 };
+    std::vector<std::vector<int>> in;
+
+    in.resize(5);
+    for (int i = 0; i < 25; i++)
+    {
+        in[i % 5].resize(5);
+        in[i % 5][i / 5] = i*i;
+    }
     Solution a;
 
-    std::cout << a.maxProductDifference(in);
+    in=a.imageSmoother(in);
+
+    for (int j = 0; j < 5; j++)
+    {
+        for (int i = 0; i < 5; i++)
+            std::cout << in[i][j] << " ";
+        std::cout << std::endl;
+    }
 
     return 0;
 }
