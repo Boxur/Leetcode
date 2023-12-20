@@ -516,12 +516,57 @@ public:
     }
 
     std::vector<std::vector<int>> imageSmoother(std::vector<std::vector<int>>& img) {
+        int sides;
+        int sum;
         std::vector<std::vector<int>> ans = img;
-        for (int y = 1; y < img.size()-1; y++)
+        for (int y = 0; y < img.size(); y++)
         {
-            for (int x = 1; x < img[0].size()-1; x++)
+            for (int x = 0; x < img[0].size(); x++)
             {
-                ans[x][y] = (img[x - 1][y - 1] + img[x][y - 1] + img[x + 1][y - 1] + img[x - 1][y] + img[x][y] + img[x + 1][y] + img[x - 1][y + 1] + img[x][y + 1] + img[x + 1][y + 1]) / 9;
+                sides = 1;
+                sum = img[y][x];
+                if (x > 0 && y > 0)
+                {
+                    sum += img[y-1][x-1];
+                    sides++;
+                }
+                if (x > 0)
+                {
+                    sum += img[y][x - 1];
+                    sides++;
+                }
+                if (y > 0)
+                {
+                    sum += img[y - 1][x];
+                    sides++;
+                }
+                if (x < img[0].size()-1 && y > 0)
+                {
+                    sum += img[y - 1][x + 1];
+                    sides++;
+                }
+                if (x > 0 && y < img.size() - 1)
+                {
+                    sum += img[y + 1][x - 1];
+                    sides++;
+                }
+                if (x < img[0].size() - 1 && y < img.size() - 1)
+                {
+                    sum += img[y + 1][x + 1];
+                    sides++;
+                }
+                if (x < img[0].size() - 1)
+                {
+                    sum += img[y][x + 1];
+                    sides++;
+                }
+                if (y < img.size() - 1)
+                {
+                    sum += img[y + 1][x];
+                    sides++;
+                }
+                ans[y][x] = sum / sides;
+
             }
         }
         return ans;
@@ -530,24 +575,20 @@ public:
 
 int main()
 {
-    std::vector<std::vector<int>> in;
+    std::vector<std::vector<int>> in = { {2, 3, 4},{5, 6, 7},{8, 9, 10},{11, 12, 13},{14, 15, 16} };
 
-    in.resize(5);
-    for (int i = 0; i < 25; i++)
-    {
-        in[i % 5].resize(5);
-        in[i % 5][i / 5] = i*i;
-    }
     Solution a;
 
     in=a.imageSmoother(in);
 
-    for (int j = 0; j < 5; j++)
+    for (auto& i : in)
     {
-        for (int i = 0; i < 5; i++)
-            std::cout << in[i][j] << " ";
+        for (auto& y : i)
+            std::cout << y << " ";
         std::cout << std::endl;
     }
+
+
 
     return 0;
 }
