@@ -571,22 +571,31 @@ public:
         }
         return ans;
     }
+
+    int buyChoco(std::vector<int>& prices, int money) {
+        int min1=0, min2=0;
+        for (int i : prices)
+        {
+            if (min1 > i || min1 == 0)
+            {
+                min2 = min1;
+                min1 = i;
+                
+            }
+            else if (min2 > i || min2 == 0)
+                min2 = i;
+        }
+        return (min1+min2<=money)?money-min1-min2 : money;
+    }
 };
 
 int main()
 {
-    std::vector<std::vector<int>> in = { {2, 3, 4},{5, 6, 7},{8, 9, 10},{11, 12, 13},{14, 15, 16} };
+    std::vector<int> in = { 69,91,78,19,40,13 };
 
     Solution a;
 
-    in=a.imageSmoother(in);
-
-    for (auto& i : in)
-    {
-        for (auto& y : i)
-            std::cout << y << " ";
-        std::cout << std::endl;
-    }
+    std::cout<<a.buyChoco(in,94);
 
 
 
