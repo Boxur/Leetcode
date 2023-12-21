@@ -587,6 +587,20 @@ public:
         }
         return (min1+min2<=money)?money-min1-min2 : money;
     }
+
+    int maxWidthOfVerticalArea(std::vector<std::vector<int>>& points) {
+        std::vector<int> ans(points.size());
+        for (int i = 0; i < points.size(); i++)
+            ans[i] = points[i][0];
+        std::sort(ans.begin(), ans.end());
+        int max=0;
+        for (int i = 0; i < ans.size()-1; i++)
+        {
+            if (ans[i + 1] - ans[i] > max)
+                max = ans[i + 1] - ans[i];
+        }
+        return max;
+    }
 };
 
 int main()
