@@ -601,6 +601,63 @@ public:
         }
         return max;
     }
+
+    int maxScore(std::string s) {
+        int ones = 0;
+        int zeros = 0;
+        int best = INT_MIN;
+
+        for (int i = 0; i < s.size() - 1; i++) {
+            if (s[i] == '1') {
+                ones++;
+            }
+            else {
+                zeros++;
+            }
+
+            best = std::max(best, zeros - ones);
+        }
+
+        if (s[s.size() - 1] == '1') {
+            ones++;
+        }
+
+        return best + ones;
+    }
+
+    bool isPathCrossing(std::string path) {
+        std::unordered_map<std::string, bool> was;
+        int x = 0, y = 0;
+        std::string cur;
+        was["0 0"] = true;
+        for (char a : path)
+        {
+            
+            switch (a)
+            {
+            case 'N':
+                y++;
+                break;
+            case 'S':
+                y--;
+                break;
+            case 'E':
+                x++; 
+                break;
+            case 'W':
+                x--;
+                break;
+            default:
+                break;
+            }
+            cur = std::to_string(x) + " " + std::to_string(y);
+            if (was.find(cur) != was.end())
+                return true;
+            was[cur] = true;
+            
+        }
+        return false;
+    }
 };
 
 int main()
@@ -608,8 +665,8 @@ int main()
     std::vector<int> in = { 69,91,78,19,40,13 };
 
     Solution a;
-
-    std::cout<<a.buyChoco(in,94);
+    //1110 1 1
+    std::cout<<a.isPathCrossing("NESW");
 
 
 
