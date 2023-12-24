@@ -658,6 +658,31 @@ public:
         }
         return false;
     }
+
+    int minOperations(std::string s) {
+        int a=0, b=0, c=0, d=0;
+        //  00   10   01   11
+        //  00->11
+        //  10->01
+        for(int i=0;i<s.size();i++)
+        {
+            if (s[i] == '0')
+            {
+                if (i % 2 == 0)
+                    a++;
+                else
+                    c++;
+            }
+            else
+            {
+                if (i % 2 == 0)
+                    b++;
+                else
+                    d++;
+            }
+        }
+        return (a + d > b + c) ? s.size() - (a + d) : s.size() - (b + c);
+    }
 };
 
 int main()
@@ -666,7 +691,7 @@ int main()
 
     Solution a;
     //1110 1 1
-    std::cout<<a.isPathCrossing("NESW");
+    std::cout<<a.minOperations("10");
 
 
 
